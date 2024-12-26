@@ -1,19 +1,29 @@
 import { fileURLToPath, URL } from 'node:url'
 
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import UnoCSS from 'unocss/vite'
+import { createHtmlPlugin } from 'vite-plugin-html'
 
-// https://vite.dev/config/
 export default defineConfig(({ command, mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
-  console.log('env', env)
-  console.log('command', command)
-
+  console.log(command)
+  console.log(mode)
   return {
-    plugins: [vue(), vueJsx(), vueDevTools(), UnoCSS()],
+    plugins: [
+      vue(),
+      vueJsx(),
+      vueDevTools(),
+      UnoCSS(),
+      createHtmlPlugin({
+        inject: {
+          data: {
+            title: '我的Vite项目',
+          },
+        },
+      }),
+    ],
     base: '/demo-admin/',
     resolve: {
       alias: {

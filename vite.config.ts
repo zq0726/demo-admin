@@ -5,7 +5,6 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import UnoCSS from 'unocss/vite'
-import { createHtmlPlugin } from 'vite-plugin-html'
 
 export default defineConfig(({ command, mode }) => {
   console.log(command)

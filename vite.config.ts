@@ -10,19 +10,7 @@ export default defineConfig(({ command, mode }) => {
   console.log(command)
   console.log(mode)
   return {
-    plugins: [
-      vue(),
-      vueJsx(),
-      vueDevTools(),
-      UnoCSS(),
-      createHtmlPlugin({
-        inject: {
-          data: {
-            title: '我的Vite项目',
-          },
-        },
-      }),
-    ],
+    plugins: [vue(), vueJsx(), vueDevTools(), UnoCSS()],
     base: '/demo-admin/',
     resolve: {
       alias: {

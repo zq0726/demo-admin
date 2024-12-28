@@ -7,6 +7,10 @@ export default [
   {
     name: 'app/files-to-lint',
     files: ['**/*.{ts,mts,tsx,vue}'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      // 可以在这里添加其他自定义规则
+    },
   },
 
   {
@@ -16,10 +20,20 @@ export default [
 
   ...pluginVue.configs['flat/essential'],
   ...vueTsEslintConfig(),
-  
+
   {
     ...pluginVitest.configs.recommended,
     files: ['src/**/__tests__/*'],
   },
   skipFormatting,
+  {
+    // 自定义规则配置对象
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      // 可以在这里添加其他自定义规则
+    },
+    // 如果需要，也可以指定要检查的文件
+    files: ['**/*.{ts,mts,tsx,vue}'],
+    // 注意：这里的 files 可能会与下面的配置冲突，具体取决于您的需求
+  },
 ]

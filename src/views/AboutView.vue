@@ -7,7 +7,7 @@ import type { TestReqType, TestResType } from '@/types/views/about_type'
  */
 const apiTest = async () => {
   try {
-    const params: TestReqType = { username: 'admin1', password: '123456789' }
+    const params: TestReqType = { username: 'admin', password: '123456789' }
     const res: TestResType = await testApi(params)
     console.log('res', res)
   } catch (error) {

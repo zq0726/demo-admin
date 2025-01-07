@@ -30,6 +30,7 @@ export default [
     // 自定义规则配置对象
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
+      'vue/multi-word-component-names': 'off',
       // 可以在这里添加其他自定义规则
     },
     // 如果需要，也可以指定要检查的文件

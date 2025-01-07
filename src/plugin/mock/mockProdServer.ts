@@ -7,5 +7,7 @@ import { createProdMockServer } from 'vite-plugin-mock/client'
 import testModule from './user'
 
 export function setupProdMockServer() {
-  createProdMockServer([...testModule])
+  if (import.meta.env.MODE === 'production' && import.meta.env.VITE_USE_MOCK === 'true') {
+    createProdMockServer([...testModule])
+  }
 }

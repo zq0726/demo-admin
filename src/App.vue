@@ -1,84 +1,40 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { computed, watch } from 'vue'
+import { RouterView, useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { useThemeConfig } from '@/stores/themeConfig'
+import { storeToRefs } from 'pinia'
+
+const { messages } = useI18n()
+
+const route = useRoute()
+
+const { globalI18n } = storeToRefs(useThemeConfig())
+const getGlobalI18n = computed(() => {
+  console.log('globalI18n.value', globalI18n.value)
+  return messages.value[globalI18n.value]
+})
+
+console.log('getGlobalI18n', getGlobalI18n.value)
+
+// 监听路由的变化，设置网站标题
+watch(
+  () => route.path,
+  () => {
+    document.title = (route.meta.title as string)
+      ? route.meta.title + ' - ' + import.meta.env.VITE_APP_TITLE
+      : import.meta.env.VITE_APP_TITLE
+  },
+  {
+    deep: true,
+  },
+)
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <el-config-provider :locale="getGlobalI18n">
+    <RouterView />
+  </el-config-provider>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  margin-top: 2rem;
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (width >= 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    margin-top: 1rem;
-    margin-left: -1rem;
-    padding: 1rem 0;
-    font-size: 1rem;
-    text-align: left;
-  }
-}
-</style>
+<style scoped></style>

@@ -52,8 +52,6 @@ class RequestHttp {
       (response: AxiosResponse) => {
         const { data, config } = response
 
-        console.log('res_response', config.headers)
-
         // 关闭全局 loading
         // if (!config.headers.noLoading) {
         //   fullLoading.hide()
@@ -73,7 +71,6 @@ class RequestHttp {
 
       (error: AxiosError) => {
         checkStatus(error.code)
-        console.log('4444')
         return Promise.reject(error)
       },
     )

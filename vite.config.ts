@@ -6,13 +6,16 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import UnoCSS from 'unocss/vite'
 import { viteMockServe } from 'vite-plugin-mock'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
-export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
-  console.log(command)
-  console.log(mode)
+export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   const root = process.cwd()
   const env = loadEnv(mode, root)
-  const { VITE_USE_MOCK } = env
+  console.log('mode', mode)
+  console.log('env', env)
+  const { VITE_USE_MOCK, VITE_APP_PORT, VITE_BASE_URL } = env
 
   return {
     plugins: [
@@ -20,18 +23,26 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       vueJsx(),
       vueDevTools(),
       UnoCSS(),
+      AutoImport({
+        resolvers: [ElementPlusResolver()],
+      }),
+      Components({
+        resolvers: [ElementPlusResolver()],
+      }),
       viteMockServe({
         mockPath: './src/plugin/mock', // mock文件夹路径
         enable: VITE_USE_MOCK === 'true' ? true : false,
       }),
     ],
-    base: '/demo-admin/',
+    base: VITE_BASE_URL,
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
     server: {
+      host: '0.0.0.0',
+      port: Number(VITE_APP_PORT),
       proxy: {
         '/api': {
           target: 'http://192.168.2.45:3578',
